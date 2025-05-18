@@ -5,11 +5,10 @@ const cors = require("cors")
 const app = express() // express lai trigger gareko 
 require("./database/connection")
 app.use(express.json());
-app.use(cors(
-    {
+app.use(cors({
         origin : "http://localhost:5173" // React app ko port
     }
-));
+))
 
 app.use("/api", bookRoute); // Ensure the prefix is correctly handled
 

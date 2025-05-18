@@ -1,19 +1,25 @@
 const { books } = require("../database/connection")
 
-exports.fetchBook = async function(req,res){
+exports.fetchBook = async function (req, res) {
+    try {
+        if (!books) throw new Error("Database model 'books' is not initialized.");
 
+        const datas = await books.findAll();
 
-    //logic for fetch book from here
-
-    //connnection ko db.books bata ko halyako ho
-   const datas = await books.findAll();      // select * from books,books.find(), always returns array
-   res.json({
-      message : "Book fetched succesfully",
-      datas
-})
-    
-
-}
+        res.json({
+            message: "Book fetched successfully",
+            status: "success",
+            data: datas
+        });
+    } catch (error) {
+        console.error("Error fetching books:", error);
+        res.status(500).json({
+            message: "Internal Server Error",
+            status: "error",
+            error: error.message
+        });
+    }
+};
 
 
 exports.addBook = async function(req,res){
